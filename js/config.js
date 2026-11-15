@@ -7,11 +7,12 @@
 
 export const config = {
   // Google Maps / Maps JavaScript API
-  googleMapsApiKey: '',
+  googleMapsApiKey: 'AIzaSyCVU933DHBbFsJVtdUP3WmRhcqAEdT2h6Q',
 
   // Spotify Web API
-  spotifyClientId: '',
-  spotifyRedirectUri: '',
+  spotifyClientId: '54da8016c0eb4b13907a7c351feab7cb',
+  spotifyRedirectUri: 'https://manfredibosco2008-lang.github.io/AmiDashboard/
+',
 
   // Soglia di attivazione vista marcia (km/h)
   drivingThresholdKmh: 2,
