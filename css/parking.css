@@ -1,0 +1,641 @@
+/**
+ * css/parking.css
+ * Stili per la vista Parcheggio (#view-parking).
+ * Tutti gli elementi sono posizionati in modo assoluto in pixel
+ * sullo stage fisso 1586x992 px, come definito da js/scale.js.
+ */
+
+#view-parking {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+}
+
+/* -------------------------------------------------
+   Aureola radiale blu-grigia dietro l'auto
+   Centrata attorno a x=810, y=450, raggio ~420 px.
+   ------------------------------------------------- */
+.parking-halo {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 810px 450px,
+    rgba(70, 100, 140, 0.35) 0%,
+    rgba(70, 100, 140, 0.05) 45%,
+    #000 100%
+  );
+  pointer-events: none;
+}
+
+/* Pavimento appena più chiaro vicino ai piedi dell'auto */
+.parking-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 130px;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 20, 22, 0.45) 0%,
+    #000 100%
+  );
+  pointer-events: none;
+}
+
+/* -------------------------------------------------
+   BARRA DI STATO SUPERIORE (y 0-45)
+   ------------------------------------------------- */
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 18px;
+  pointer-events: none;
+}
+
+.top-section {
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.battery-icon {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+
+.battery-pct {
+  font-size: 17px;
+  color: #fff;
+  margin-left: 10px;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.top-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 53px; /* icone a x=740, 793, 840 */
+}
+
+.top-icon {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.top-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: auto;
+}
+
+.time {
+  font-size: 22px;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+
+.temp {
+  font-size: 22px;
+  color: #fff;
+  font-weight: 400;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon-status-small {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.status-text {
+  font-size: 7px;
+  color: #888;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* -------------------------------------------------
+   MINI-MAPPA (angolo in alto a destra)
+   x 1325-1586, y 0-340
+   ------------------------------------------------- */
+.minimap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 261px;
+  height: 340px;
+  overflow: hidden;
+  /* Maschera a sfumatura: bordi sinistro e inferiore nel nero */
+  -webkit-mask-image:
+    linear-gradient(to bottom, #000 70%, transparent 100%),
+    linear-gradient(to right, #000 70%, transparent 100%);
+  mask-image:
+    linear-gradient(to bottom, #000 70%, transparent 100%),
+    linear-gradient(to right, #000 70%, transparent 100%);
+  -webkit-mask-size: 100% 100%, 100% 100%;
+  mask-size: 100% 100%, 100% 100%;
+  pointer-events: none;
+}
+
+.minimap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* -------------------------------------------------
+   AUTO
+   x 475-1145, y 245-665 (width ~670)
+   ------------------------------------------------- */
+.car-wrapper {
+  position: absolute;
+  left: 475px;
+  top: 245px;
+  width: 670px;
+  height: 420px;
+  pointer-events: none;
+}
+
+.car-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Riflesso sul pavimento: copia capovolta, opacità 0.28 */
+.car-reflection {
+  position: absolute;
+  left: 0;
+  top: 650px;
+  width: 100%;
+  height: 95px;
+  object-fit: cover;
+  transform: scaleY(-1);
+  transform-origin: top;
+  opacity: 0.28;
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+  pointer-events: none;
+}
+
+/* -------------------------------------------------
+   LUCCHETTO AUTO
+   x=826, y=120, 36 px
+   ------------------------------------------------- */
+.car-lock {
+  position: absolute;
+  left: 826px;
+  top: 120px;
+  width: 36px;
+  height: 36px;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 10;
+  fill: #fff;
+}
+
+.car-lock.unlocked {
+  fill: #22c55e;
+}
+
+.lock-line {
+  position: absolute;
+  left: 829px;
+  top: 150px;
+  width: 1px;
+  height: 85px;
+  background: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+}
+
+/* -------------------------------------------------
+   ETICHETTE PORTA / BAGAGLIAIO
+   ------------------------------------------------- */
+.label-left,
+.label-right {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.label-left {
+  left: 488px;
+  top: 232px;
+}
+
+.label-right {
+  left: 1082px;
+  top: 168px;
+}
+
+.label-line {
+  position: absolute;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.label-left .label-line {
+  height: 248px; /* y 232 -> 480 */
+  top: 0;
+  left: 0;
+}
+
+.label-right .label-line {
+  height: 232px; /* y 168 -> 400 */
+  top: 0;
+  left: 0;
+}
+
+.label-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.label-action {
+  font-size: 18px;
+  color: #b5b5b9;
+  line-height: 1;
+  user-select: none;
+}
+
+.label-object {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin-top: 2px;
+  user-select: none;
+}
+
+/* -------------------------------------------------
+   FULMINE
+   x=1226, y=388, 28 px; linea orizzontale x 1088-1205
+   ------------------------------------------------- */
+.bolt-wrapper {
+  position: absolute;
+  left: 1088px;
+  top: 380px; /* y=388 meno offset 8 per allineare */
+  width: 117px;
+  height: 28px;
+  pointer-events: none;
+}
+
+.bolt-line {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 117px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.bolt {
+  position: absolute;
+  left: 138px; /* 1226 - 1088 */
+  top: 0;
+  width: 28px;
+  height: 28px;
+  fill: #fff;
+}
+
+/* -------------------------------------------------
+   CARD INFERIORI (sfondo #1b1b1d, angoli 6 px)
+   ------------------------------------------------- */
+.card {
+  position: absolute;
+  background: #1b1b1d;
+  border-radius: 6px;
+}
+
+.card-spotify {
+  left: 315px;
+  top: 743px;
+  width: 572px;  /* 887 - 315 */
+  height: 149px; /* 892 - 743 */
+}
+
+.card-trip {
+  left: 907px;
+  top: 743px;
+  width: 364px;  /* 1271 - 907 */
+  height: 149px; /* 892 - 743 */
+}
+
+.card-separator {
+  position: absolute;
+  left: 0;
+  top: 79px; /* y 822 - 743 */
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* --- Card Spotify: riga alta --- */
+.spotify-cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 74px;
+  height: 76px;
+  background: #222;
+  border-radius: 4px;
+}
+
+.spotify-info {
+  position: absolute;
+  left: 88px;  /* 403 - 315 */
+  top: 26px;   /* 769 - 743 */
+}
+
+.spotify-title {
+  margin: 0;
+  font-size: 21px;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+
+.spotify-artist {
+  margin: 0;
+  font-size: 19px;
+  color: #9b9b9f;
+  margin-top: 4px;
+}
+
+.spotify-progress {
+  position: absolute;
+  left: 88px;   /* 403 - 315 */
+  top: 67px;    /* 810 - 743 */
+  width: 80px;  /* 483 - 403 */
+  height: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.spotify-progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  height: 100%;
+  background: #fff;
+}
+
+.spotify-shuffle,
+.spotify-repeat {
+  position: absolute;
+  top: 37px;    /* 780 - 743 */
+  width: 20px;
+  height: 20px;
+  fill: #b5b5b9;
+  pointer-events: none;
+}
+
+.spotify-shuffle {
+  left: 427px;  /* 742 - 315 */
+}
+
+.spotify-repeat {
+  left: 518px;  /* 833 - 315 */
+}
+
+/* --- Card Spotify: riga bassa (icone a y 858) --- */
+.spotify-ctrl {
+  position: absolute;
+  left: 0;
+  top: 115px;   /* 858 - 743 */
+  width: 100%;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 90px;
+}
+
+.spotify-ctrl svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+/* --- Card viaggio: riga alta --- */
+.trip-time {
+  position: absolute;
+  left: 21px;   /* 928 - 907 */
+  top: 27px;    /* 770 - 743 */
+  font-size: 21px;
+  color: #fff;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.trip-duration {
+  position: absolute;
+  left: 197px;  /* 1104 - 907 */
+  top: 27px;
+  font-size: 21px;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.trip-distance {
+  position: absolute;
+  left: 291px;  /* 1198 - 907 */
+  top: 27px;
+  font-size: 21px;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Card viaggio: riga media (y 796) --- */
+.trip-subrow {
+  position: absolute;
+  left: 21px;
+  top: 53px;    /* 796 - 743 */
+  width: 322px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trip-dest {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  color: #c9c9cf;
+}
+
+.trip-battery {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 17px;
+  color: #c9c9cf;
+}
+
+.icon-dest,
+.icon-car-small,
+.icon-batt {
+  width: 16px;
+  height: 16px;
+  fill: #c9c9cf;
+  pointer-events: none;
+}
+
+.trip-batt-fill {
+  position: absolute;
+  width: 10px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Punto rosso indicatore */
+.trip-dot {
+  position: absolute;
+  left: 19px;   /* 926 - 907 */
+  top: 72px;    /* 815 - 743 */
+  width: 10px;
+  height: 10px;
+  background: #ff3b30;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* --- Card viaggio: riga bassa --- */
+.trip-bottom {
+  position: absolute;
+  left: 0;
+  top: 115px;   /* circa y 858 */
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 46px;
+}
+
+.trip-bottom .icon-car-small {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+}
+
+.trip-label {
+  font-size: 21px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.trip-dots {
+  position: absolute;
+  left: 322px;  /* 1229 - 907 */
+  top: 115px;   /* 858 - 743 */
+  width: 16px;
+  height: 16px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+/* -------------------------------------------------
+   DOCK INFERIORE (y 908-992)
+   ------------------------------------------------- */
+.dock {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 84px;
+  background: #000;
+  border-top: 1px solid #222;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  pointer-events: auto;
+}
+
+.dock-left,
+.dock-right {
+  display: flex;
+  align-items: center;
+  gap: 44px;
+}
+
+.dock-car {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.dock-arrow {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.dock-speed {
+  font-size: 44px;
+  color: #fff;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dock-app {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.dock-app svg {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.dock-volume {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  pointer-events: none;
+}

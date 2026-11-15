@@ -1,0 +1,846 @@
+/**
+ * css/driving.css
+ * Stili per la Vista Marcia (#view-driving).
+ * Tutti gli elementi sono posizionati in modo assoluto in pixel
+ * sullo stage fisso 1586x992 px, replicando docs/ref/marcia.png.
+ */
+
+#view-driving {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+}
+
+/* ============================================================
+   PANELLO SINISTRO (x 0-478, y 0-885, sfondo #0b0b0c,
+   angolo basso a destra arrotondato 14 px)
+   ============================================================ */
+.driving-left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 478px;
+  height: 885px;
+  background: #0b0b0c;
+  border-bottom-right-radius: 14px;
+  overflow: hidden;
+}
+
+/* Icone di stato in alto */
+.icon-warning {
+  position: absolute;
+  left: 92px;
+  top: 28px;
+  width: 32px;
+  height: 32px;
+  fill: #f5b400;
+  pointer-events: none;
+}
+
+.icon-headlights {
+  position: absolute;
+  left: 438px;
+  top: 28px;
+  width: 32px;
+  height: 32px;
+  fill: #2fd24b;
+  pointer-events: none;
+}
+
+/* Tachimetro: numero grande centrato a x=240, centro y=90 */
+.speed-container {
+  position: absolute;
+  left: 240px;
+  top: 42px;   /* centro y 90 meno metà altezza ~95/2 */
+  width: 0;
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.speed-value {
+  font-size: 95px;
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.speed-value.overspeed {
+  color: #ff3b30;
+}
+
+.speed-unit {
+  position: absolute;
+  left: 238px;
+  top: 147px;
+  font-size: 17px;
+  color: #cfcfd3;
+  letter-spacing: 1px;
+  font-weight: 400;
+  pointer-events: none;
+}
+
+/* Riga marce P R N D (y=147, x 17-95) */
+.gear-row {
+  position: absolute;
+  left: 17px;
+  top: 147px;
+  width: 78px;   /* 95 - 17 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.gear {
+  font-size: 17px;
+  color: #9a9a9e;
+  font-weight: 400;
+}
+
+.gear.active {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Percentuale batteria e icona (y=147) */
+.battery-pct {
+  position: absolute;
+  left: 360px;
+  top: 147px;
+  font-size: 17px;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.battery-icon-driving {
+  position: absolute;
+  left: 411px;
+  top: 139px;
+  width: 49px;
+  height: 16px;
+  fill: #22d33a;
+  pointer-events: none;
+}
+
+/* Linea separatrice sottile y=169 (x 17-462) + segmento verde */
+.speed-line {
+  position: absolute;
+  left: 17px;
+  top: 169px;
+  width: 445px;  /* 462 - 17 */
+  height: 1px;
+  background: #3a3a3d;
+  pointer-events: none;
+}
+
+.speed-line-green {
+  position: absolute;
+  left: 238px;
+  top: 168px;    /* centrato su y=169 con spessore 3px */
+  width: 34px;   /* 272 - 238 */
+  height: 3px;
+  background: #2fd24b;
+  border-radius: 1.5px;
+  pointer-events: none;
+}
+
+/* Riga controlli velocità (y=206) */
+.steering-icon {
+  position: absolute;
+  left: 35px;
+  top: 206px;
+  width: 38px;
+  height: 38px;
+  fill: #1e90ff;
+  pointer-events: none;
+}
+
+.minus-btn {
+  position: absolute;
+  left: 165px;
+  top: 206px;
+  font-size: 28px;
+  color: #fff;
+  font-weight: 400;
+  pointer-events: none;
+  user-select: none;
+}
+
+.limit-circle {
+  position: absolute;
+  left: 217px;   /* centro x=237 meno metà diametro 20 */
+  top: 186px;    /* centro y=206 meno 20 */
+  width: 40px;
+  height: 40px;
+  border: 2px solid #cfcfd3;
+  border-radius: 50%;
+  font-size: 24px;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.plus-btn {
+  position: absolute;
+  left: 310px;
+  top: 206px;
+  font-size: 28px;
+  color: #fff;
+  font-weight: 400;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Cartello limite velocità (x=440, rettangolo bianco 30x40 bordo nero) */
+.limit-sign {
+  position: absolute;
+  left: 440px;
+  top: 206px;
+  width: 30px;
+  height: 40px;
+  background: #fff;
+  border: 2px solid #000;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.limit-sign .limit-small {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.limit-sign .limit-big {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Scena auto posteriore (x 175-305, y 450-580) */
+.driving-scene {
+  position: absolute;
+  left: 175px;
+  top: 450px;
+  width: 130px;
+  height: 130px;
+  pointer-events: none;
+}
+
+.driving-scene img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Cono di luce soffuso (ellisse ~300x150 centrata x=240, y=450) */
+.light-cone {
+  position: absolute;
+  left: 90px;    /* 240 - 150 */
+  top: 375px;    /* 450 - 75 */
+  width: 300px;
+  height: 150px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.35) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* Linee di corsia blu in prospettiva */
+.lanes-svg {
+  position: absolute;
+  left: 80px;
+  top: 320px;
+  width: 320px;
+  height: 300px;
+  pointer-events: none;
+}
+
+.lane {
+  fill: none;
+  stroke: #2aa8ff;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 10px rgba(42, 168, 255, 0.6));
+  stroke-dasharray: 12, 18;
+  stroke-dashoffset: 0;
+}
+
+/* Icone in basso (y=742, 32 px, grigie #8e8e93) */
+.icon-bottom {
+  position: absolute;
+  top: 742px;
+  width: 32px;
+  height: 32px;
+  fill: #8e8e93;
+  pointer-events: none;
+}
+
+.icon-steering-bottom { left: 114px; }
+.icon-bolt-bottom     { left: 238px; }
+.icon-mic-bottom      { left: 362px; }
+
+/* Puntini di paginazione (y=860, x 220 241 262) */
+.driving-dots {
+  position: absolute;
+  left: 220px;
+  top: 860px;
+  display: flex;
+  gap: 21px;
+  pointer-events: none;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8e8e93;
+}
+
+.dot.active {
+  background: #fff;
+}
+
+/* ============================================================
+   AREA MAPPA E OVERLAY (x 478-1586, y 0-885)
+   ============================================================ */
+.driving-map {
+  position: absolute;
+  left: 478px;
+  top: 0;
+  right: 0;
+  height: 885px;
+  background: #101214;
+  overflow: hidden;
+}
+
+/* Barra di stato sopra la mappa (y=28, trasparente) */
+.map-status {
+  position: absolute;
+  left: 478px;
+  top: 28px;
+  right: 0;
+  height: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 34px;
+  pointer-events: none;
+}
+
+.map-status-left {
+  display: flex;
+  gap: 50px;
+}
+
+.map-status-icon {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+}
+
+.map-alert {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: #e5171f;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-alert svg {
+  width: 12px;
+  height: 12px;
+  fill: #fff;
+}
+
+.map-status-right {
+  display: flex;
+  gap: 92px;
+}
+
+.map-temp,
+.map-time {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 400;
+  pointer-events: none;
+}
+
+/* Pillola "Naviga" (x 493-775, y 66-130) */
+.nav-pill {
+  position: absolute;
+  left: 493px;
+  top: 66px;
+  width: 282px;   /* 775 - 493 */
+  height: 64px;   /* 130 - 66 */
+  background: rgba(17, 18, 20, 0.92);
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  pointer-events: none;
+}
+
+.nav-arrow {
+  width: 20px;
+  height: 20px;
+  fill: #1e90ff;
+  margin-right: 37px;
+}
+
+.nav-text {
+  font-size: 19px;
+  color: #fff;
+  font-weight: 500;
+  margin-right: auto;
+}
+
+.nav-chevron {
+  position: absolute;
+  right: 34px;
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+}
+
+/* Card indicazioni (x 493-776, y 149-625) */
+.trip-card {
+  position: absolute;
+  left: 493px;
+  top: 149px;
+  width: 283px;   /* 776 - 493 */
+  height: 476px;  /* 625 - 149 */
+  background: rgba(23, 24, 26, 0.94);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.trip-step {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 45px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.step-arrow {
+  width: 40px;
+  height: 40px;
+  fill: #1e90ff;
+  flex-shrink: 0;
+}
+
+.step-arrow.gray {
+  fill: #6e6e73;
+}
+
+.step-text {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  gap: 2px;
+}
+
+.step-dist {
+  font-size: 19px;
+  color: #cfcfd3;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.step-desc {
+  font-size: 19px;
+  color: #fff;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.step-speaker {
+  position: absolute;
+  right: 45px;
+  width: 20px;
+  height: 20px;
+  fill: #6e6e73;
+}
+
+.step-1 { top: 1px;  height: 85px; }   /* y 150-235 */
+.step-2 { top: 91px; height: 70px; }   /* y 240-310 */
+.step-3 { top: 171px; height: 70px; }  /* y 320-390 */
+.step-4 { top: 251px; height: 85px; }  /* y 400-485 */
+
+/* Pulsante ANNULLA VIAGGIO (x 493-776, y 493-560) */
+.cancel-trip {
+  position: absolute;
+  left: 0;
+  top: 344px;   /* 493 - 149 */
+  width: 100%;
+  height: 67px; /* 560 - 493 */
+  background: #4a4a4d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Footer indicazioni (y 560-625) */
+.trip-footer {
+  position: absolute;
+  left: 0;
+  top: 411px;   /* 560 - 149 */
+  width: 100%;
+  height: 65px; /* 625 - 560 */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 18px;
+  color: #cfcfd3;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+/* Controlli mappa a destra (sfondo #17181a opacità 0.95) */
+.map-controls {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  width: 64px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.map-control {
+  width: 64px;
+  height: 64px;
+  background: rgba(23, 24, 26, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.map-control svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.compass {
+  position: absolute;
+  left: calc(50% - 32px);
+  top: 72px;   /* 104 - 32 */
+}
+
+.zoom-pill {
+  position: absolute;
+  left: calc(50% - 32px);
+  top: 123px;  /* 155 - 32 */
+  width: 64px;
+  height: 140px; /* 295 - 155 */
+  background: rgba(23, 24, 26, 0.95);
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.zoom-btn {
+  width: 32px;
+  height: 32px;
+  background: #fff;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #000;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.bolt-btn {
+  position: absolute;
+  left: calc(50% - 32px);
+  top: 558px;  /* 590 - 32 */
+}
+
+.gear-btn {
+  position: absolute;
+  left: calc(50% - 32px);
+  top: 638px;  /* 670 - 32 */
+}
+
+/* Mini-player (x 478-1568, y 737-872) */
+.mini-player {
+  position: absolute;
+  left: 478px;
+  top: 737px;
+  width: 1090px;  /* 1568 - 478 */
+  height: 135px;  /* 872 - 737 */
+  background: rgba(27, 27, 29, 0.96);
+}
+
+.cover {
+  position: absolute;
+  left: 16px;    /* 494 - 478 */
+  top: 1px;      /* 738 - 737 */
+  width: 138px;  /* 632 - 494 */
+  height: 135px; /* 872 - 737 */
+  background: #222;
+  border-radius: 4px;
+}
+
+.cover svg {
+  width: 100%;
+  height: 100%;
+  fill: #444;
+}
+
+.heart-outline {
+  position: absolute;
+  left: 189px;   /* 667 - 478 */
+  top: 18px;     /* 755 - 737 */
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.track-info {
+  position: absolute;
+  left: 179px;   /* 657 - 478 */
+  top: 45px;     /* 782 - 737 */
+}
+
+.track-title {
+  margin: 0;
+  font-size: 24px;
+  color: #fff;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.track-artist {
+  margin: 0;
+  font-size: 19px;
+  color: #fff;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.track-album {
+  margin: 0;
+  font-size: 14px;
+  color: #9b9b9f;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.progress-bar {
+  position: absolute;
+  left: 179px;   /* 657 - 478 */
+  top: 116px;    /* 853 - 737 */
+  width: 270px;  /* 927 - 657 */
+  height: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 55%;
+  height: 100%;
+  background: #fff;
+}
+
+.time-left {
+  position: absolute;
+  right: 20px;
+  top: 116px;    /* 853 - 737 */
+  font-size: 13px;
+  color: #8e8e93;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.player-controls {
+  position: absolute;
+  top: 67px;     /* 804 - 737 */
+  left: 547px;   /* 1025 - 478 */
+  display: flex;
+  gap: 109px;
+  pointer-events: none;
+}
+
+.player-controls svg {
+  width: 30px;
+  height: 30px;
+  fill: #fff;
+}
+
+/* Segnaposto mappa scuro con griglia grigia */
+.map-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #101214;
+}
+
+/* ============================================================
+   DOCK INFERIORE (y 885-992, nero #000)
+   ============================================================ */
+.driving-dock {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 107px; /* 992 - 885 */
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  pointer-events: auto;
+}
+
+.dock-item {
+  position: absolute;
+  top: 48px;     /* 933 - 885 */
+  width: 36px;
+  height: 36px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.dock-car       { left: 150px; }
+.dock-defrost-front { left: 275px; fill: #1e90ff; }
+.dock-defrost-rear  { left: 398px; fill: #e5171f; }
+.dock-seat-left { left: 522px; }
+
+.dock-temp-left {
+  position: absolute;
+  left: 667px;
+  top: 28px;   /* centro circa y=933 */
+  font-size: 44px;
+  color: #fff;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dock-temp-left .chevron {
+  position: absolute;
+  left: 667px;
+  width: 16px;
+  height: 16px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.dock-temp-left .chevron-up { top: 10px; }   /* y 898 - 885 */
+.dock-temp-left .chevron-down { top: 83px; } /* y 968 - 885 */
+
+.dock-fan {
+  position: absolute;
+  left: 792px;
+  top: 36px;
+  width: 36px;
+  height: 36px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.dock-fan-label {
+  position: absolute;
+  left: 792px;
+  top: 74px;   /* circa 959 - 885 */
+  font-size: 11px;
+  color: #8e8e93;
+  text-align: center;
+  width: 36px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dock-temp-right {
+  position: absolute;
+  left: 916px;
+  top: 28px;
+  font-size: 44px;
+  color: #fff;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dock-temp-right .chevron {
+  position: absolute;
+  left: 916px;
+  width: 16px;
+  height: 16px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.dock-temp-right .chevron-up { top: 10px; }   /* y 900 - 885 = 15, aproximo 10 */
+.dock-temp-right .chevron-down { top: 83px; } /* y 968 - 885 = 83 */
+
+.dock-seat-right { left: 1062px; }
+.dock-music      { left: 1182px; }
+.dock-phone      { left: 1307px; }
+.dock-volume     { left: 1432px; }
+
+.dock-volume .chevron {
+  position: absolute;
+  left: 1432px;
+  width: 16px;
+  height: 16px;
+  fill: #fff;
+  pointer-events: none;
+}
+
+.dock-volume .chevron-up { top: 15px; }   /* y 900 - 885 = 15 */
+.dock-volume .chevron-down { top: 83px; } /* y 968 - 885 = 83 */
