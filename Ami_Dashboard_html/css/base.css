@@ -1,0 +1,164 @@
+/**
+ * base.css
+ * Stili di base per la dashboard Ami.
+ * Tutta l'interfaccia vive nello stage fisso 1586x992 px, centrato e
+ * scalato tramite transform: scale(s) da js/scale.js.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;           // nessuno scroll
+  user-select: none;          // niente selezione testo
+  -webkit-user-select: none;
+  touch-action: manipulation; // niente zoom a pizzico
+  overscroll-behavior: none;  // blocca pull-to-refresh e rimbalzo scroll (PWA su mobile)
+}
+
+/* Stage fisso 1586x992 px. Viene scalato e centrato da scale.js. */
+#stage {
+  position: relative;
+  width: 1586px;
+  height: 992px;
+  background: #000;
+  overflow: hidden;
+  /* Le bande vuote attorno allo stage sono nere grazie a body {background:#000}. */
+}
+
+/* Viste sovrapposte: una sola visibile alla volta. */
+.view {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 400ms ease;
+  pointer-events: auto;
+}
+
+.view.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Testo di placeholder per le viste (fase 1). */
+.view-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-align: center;
+}
+
+/* -------------------------------------------------
+   Banner GPS (discreto, sopra barra di stato)
+   ------------------------------------------------- */
+.gps-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #1a1a1d;
+  color: #fff;
+  padding: 6px 18px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  border-bottom: 1px solid #333;
+}
+
+.gps-banner.hidden {
+  display: none;
+}
+
+.gps-banner-text {
+  flex: 1;
+}
+
+.gps-banner button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 4px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.gps-banner button:hover {
+  background: #444;
+}
+
+/* -------------------------------------------------
+   Pannello debug velocità (tap lungo sull'orario)
+   ------------------------------------------------- */
+.debug-panel {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  background: #1b1b1d;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 2000;
+  color: #fff;
+}
+
+.debug-panel.hidden {
+  display: none;
+}
+
+.debug-panel h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.debug-panel label {
+  display: block;
+  font-size: 13px;
+  color: #b5b5b9;
+  margin-bottom: 8px;
+}
+
+.debug-panel input[type='range'] {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.debug-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.debug-actions button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.debug-actions button:hover {
+  background: #444;
+}
